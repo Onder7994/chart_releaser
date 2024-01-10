@@ -9,10 +9,10 @@ logger = Logging("chart-releaser")
 handlers = HandlerFactory()
 
 config_parser = configparser.ConfigParser()
-config_parser.read(cmd_args.tool_config_path)
 try:
+    config_parser.read(cmd_args.tool_config_path)
     token_type = config_parser.get("main", "TOKEN_TYPE")
-except (configparser.NoSectionError):
+except (configparser.NoSectionError, AttributeError):
     token_type = "JOB-TOKEN"
 
 def main():
