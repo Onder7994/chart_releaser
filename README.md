@@ -2,7 +2,8 @@
 
 This tool **requirement helm binary in machine.**
 
-The utility cat create a helm package and upload it to the gitlab registry in the **stable** or **develop** channel.
+The utility can create a helm package and upload it to the gitlab registry in the **stable** or **develop** channel.
+[More information in gitlab documentation](https://docs.gitlab.com/ee/user/packages/helm_repository/)
 
 When uploading to develop channel, the same versions are allowed to be uploaded. When installing helm will take the last downloaded version.
 
