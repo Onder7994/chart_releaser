@@ -1,0 +1,6 @@
+dependencies:
+- name: gerrit
+  repository: http://localhost:8080/api/v4/projects/1/packages/helm/develop
+  version: 0.1.0
+digest: sha256:d7cd608000d976cd55b9e1d3193e2ea1b1c8d8f7c56199bc72bb7e250fcab434
+generated: "2024-01-09T19:43:50.423528753+02:00"
