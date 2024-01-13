@@ -18,18 +18,8 @@ Uploading identical versions to stable channel is forbidden in the code.
 5. **-n || --chart-name** - chart name.
 6. **-path** - path to Chart.yaml.
 7. **-c || --config** - path to config file. Override if env **TOOL_CONFIG_PATH** is exist. Default **hc-releaser.config**. File exist in repository and need for local development, because for gitlab registy must use headers with **JOB-TOKEN** if you usage **CI_JOB_TOKEN** and **PRIVATE-TOKEN** if you usage your private token. This is dynamic paramenter and by default usage **JOB-TOKEN**. If config does not exist usage **JOB_TOKEN** also. 
+8. **-b || --branch** - branch for release_stage. 
 
-# Installation
-
-```bash
-pip install chart_releaser
-```
-```bash
-git clone <repo>
-pip install -r requirements.txt
-poetry install
-poetry run <tool cmd>
-```
 
 # Usage
 
