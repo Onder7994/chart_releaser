@@ -88,13 +88,25 @@ class HelmReleaseStageHandler(Helper):
         """Run handler helm release_stage args."""
         try:
             self.logger.info("Create helm package...")
-            run ( ["helm", "package", self.cmd_args.chart_path ], check=True)
             chart_version = self.get_chart_version(self.token_type)
-            GitlabApi.send_request(self, "POST", chart_version, self.token_type, is_stage=True)
+            run (
+                [
+                    "helm", "package",
+                    "--version", f"{chart_version}-{self.cmd_args.branch}",
+                    self.cmd_args.chart_path
+                ],
+                check=True
+            )
+            GitlabApi.send_request(
+                self, "POST",
+                f"{chart_version}-{self.cmd_args.branch}",
+                self.token_type,
+                is_stage=True
+            )
             self.logger.info(
                 "Upload %s-%s.tgz to https://%s.",
                 self.cmd_args.chart_name,
-                chart_version,
+                f"{chart_version}-{self.cmd_args.branch}",
                 self.cmd_args.registry_url
             )
         except (subprocess.CalledProcessError, requests.exceptions.RequestException) as err:

@@ -41,6 +41,7 @@ class HelmReleaseStageArgs(BasicArgs):
 
     command: str
     helm_args: str
+    branch: str
 
 @dataclass
 class HelmCheckVersionArgs(BasicArgs):
@@ -123,7 +124,9 @@ def create_switch_args_fabric(class_type, args):
             project_id=args.project_id,
             chart_path=args.chart_path,
             chart_name=args.chart_name,
-            tool_config_path=args.tool_config_path
+            tool_config_path=args.tool_config_path,
+            **({'branch': args.branch} if class_type is HelmReleaseStageArgs else {})
+
         )
 
 def parse_args():
@@ -168,6 +171,12 @@ def parse_args():
         "release_stage",
         help="Helm release stage cmd"
     )
+    helm_release_stage_parser.add_argument(
+        "-b", "--branch",
+        required=True,
+        help="Git branch",
+        dest="branch"
+    )
     ## Helm check version parser
     helm_check_version_parser = helm_subparsers.add_parser(
         "check",
@@ -178,16 +187,13 @@ def parse_args():
     create_common_arguments_group(helm_check_version_parser)
     args = parser.parse_args()
 
-    if args.command == "helm":
+    if args.command == "helm" and args.helm_args is not None:
         switch_classes = {
             "linting": HelmLintArgs,
             "release": HelmReleaseArgs,
             "release_stage": HelmReleaseStageArgs,
             "check": HelmCheckVersionArgs
         }
-        try:
-            return create_switch_args_fabric(switch_classes.get(args.helm_args), args)
-        except AttributeError:
-            parser.print_help()
+        return create_switch_args_fabric(switch_classes.get(args.helm_args), args)
     else:
         parser.print_help()

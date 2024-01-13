@@ -21,13 +21,13 @@ class GitlabApi:
             }
             if is_stage is False:
                 requests.post(
-                    f"https://{self.cmd_args.registry_url}/api/v4/projects/{self.cmd_args.project_id}/packages/helm/api/stable/charts",
+                    f"http://{self.cmd_args.registry_url}/api/v4/projects/{self.cmd_args.project_id}/packages/helm/api/stable/charts",
                     files=chart_file, auth=('JOB-TOKEN', self.cmd_args.token),
                     verify=self.cmd_args.ssl_path, timeout=120
                 )
             else:
                 requests.post(
-                    f"https://{self.cmd_args.registry_url}/api/v4/projects/{self.cmd_args.project_id}/packages/helm/api/develop/charts",
+                    f"http://{self.cmd_args.registry_url}/api/v4/projects/{self.cmd_args.project_id}/packages/helm/api/develop/charts",
                     files=chart_file, auth=('JOB-TOKEN', self.cmd_args.token),
                     verify=self.cmd_args.ssl_path, timeout=120
                 )
@@ -36,7 +36,7 @@ class GitlabApi:
                 token_type : self.cmd_args.token
             }
             data = requests.get(
-                f"https://{self.cmd_args.registry_url}/api/v4/projects/{self.cmd_args.project_id}/packages?package_type=helm&package_name={self.cmd_args.chart_name}",
+                f"http://{self.cmd_args.registry_url}/api/v4/projects/{self.cmd_args.project_id}/packages?package_type=helm&package_name={self.cmd_args.chart_name}",
                 headers=headers,
                 verify=self.cmd_args.ssl_path, timeout=120
             )
@@ -54,7 +54,7 @@ class GitlabApi:
                 current_page_number = int(data.headers["X-Page"])
                 while current_page_number <= total_page_number:
                     response = requests.get(
-                        f"https://{self.cmd_args.registry_url}/api/v4/projects/"
+                        f"http://{self.cmd_args.registry_url}/api/v4/projects/"
                         f"{self.cmd_args.project_id}/packages?package_type=helm&package_name={self.cmd_args.chart_name}",
                         params={'page': current_page_number}, headers=headers,
                         verify=self.cmd_args.ssl_path, timeout=120
